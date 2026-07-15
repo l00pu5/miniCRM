@@ -1,0 +1,12 @@
+# TODOs
+- transform index.html to individual views (in folder /views)
+  - create view: login form
+  - create view: registration form
+  - create view: home / dashboard
+  - create view: create account
+  - create view: create contact
+  - create view: create asset / product
+  - create view: create case
+  - create view: create interaction
+- adapt backend / API
+ - endpoint: test user account creation
