@@ -15,7 +15,7 @@ app.set("view engine", "ejs");
 // serve static files
 app.use(express.static("public"));
 
-// 
+// middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
