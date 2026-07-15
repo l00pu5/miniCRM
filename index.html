@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>miniCRM</title>
+  <link rel="stylesheet" href="./mcrm.css">
+  <script type="text/javascript" src="./mcrm.js"></script>
+</head>
+
+<body>
+  <dialog id="dlg_about">
+    <p>Sebastian Block rulez - you better fuckin' believe it :)</p>
+    <button onclick="window.dlg_about.close()">Close</button>
+    <button onclick="window.dlg_test.showModal()">Test</button>
+  </dialog>
+  <dialog id="dlg_test">
+    <p>Sebastian Block rulez 4evah :)</p>
+    <button onclick="window.dlg_test.close()">Close</button>
+  </dialog>
+  <dialog id="dlg_new_consumer">
+    <h3>Create new consumer</h3>
+    <form method="dialog">
+      <fieldset>
+        <legend>Consumer name</legend>
+        <table>
+          <tr>
+            <td>
+              <label for="consumer_title">Title:</label>
+            </td>
+            <td>
+              <select id="consumer_title">
+                <option value=""></option>
+                <option value="Mr.">Mr.</option>
+                <option value="Ms.">Ms.</option>
+                <option value="Mrs.">Mrs.</option>
+                <option value="Dr.">Dr.</option>
+                <option value="Prof.">Prof.</option>
+                <option value="Diverse">Diverse</option>
+              </select>
+            </td>
+            <td class="hint_red">*</td>
+          </tr>
+          <tr>
+            <td>
+              <label>Company:</label>
+            </td>
+            <td>
+              <input type="text" id="company_name" name="company_name" disabled />
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <label for="consumer_first_name">First Name:</label>
+            </td>
+            <td>
+              <input id="consumer_first_name" name="consumer_first_name" type="text" />
+            </td>
+            <td class="hint_red">*</td>
+          </tr>
+          <tr>
+            <td>
+              <label for="consumer_last_name">Last Name:</label>
+            </td>
+            <td>
+              <input id="consumer_last_name" name="consumer_last_name" type="text" />
+            </td>
+            <td class="hint_red">*</td>
+          </tr>
+        </table>
+      </fieldset>
+      <fieldset>
+        <legend>Consumer contact details</legend>
+        <table>
+          <tr>
+            <td>
+              <label for="consumer_mail_address">Email address:</label>
+            </td>
+            <td>
+              <input type="text" id="consumer_mail_address" name="consumer_mail_address" />
+            </td>
+            <td class="hint_neutral">*</td>
+          </tr>
+          <tr>
+            <td>
+              <label for="consumer_phone_home">Phone (home):</label>
+            </td>
+            <td>
+              <input type="text" id="consumer_phone_home" name="consumer_phone_home" />
+            </td>
+            <td class="hint_neutral">*</td>
+          </tr>
+          <tr>
+            <td>
+              <label for="consumer_phone_mobile">Phone (mobile):</label>
+            </td>
+            <td>
+              <input type="text" id="consumer_phone_mobile" name="consumer_phone_mobile" />
+            </td>
+          </tr>
+        </table>
+      </fieldset>
+      <fieldset>
+        <legend>Consumer address details</legend>
+        <table>
+          <tr>
+            <td>
+              <label for="consumer_addr_street">Street name:</label>
+            </td>
+            <td>
+              <input type="text" id="consumer_addr_street" name="consumer_addr_street" />
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <label for="consumer_addr_house_no">House number:</label>
+            </td>
+            <td>
+              <input type="text" id="consumer_addr_house_no" name="consumer_addr_house_no" />
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <label for="consumer_addr_zip">ZIP code:</label>
+            </td>
+            <td>
+              <input type="text" id="consumer_addr_zip" name="consumer_addr_zip" />
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <label>Country:</label>
+            </td>
+            <td>
+              <select id="consumer_addr_country">
+                <option value="None"></option>
+                <option value="DE">Germany</option>
+                <option value="BE">Belgium</option>
+                <option value="NL">Netherlands</option>
+                <option value="LUX">Luxembourg</option>
+                <option value="UK">United Kingdom</option>
+                <option value="IR">Ireland</option>
+              </select>
+            </td>
+            <td class="hint_red">*</td>
+          </tr>
+        </table>
+      </fieldset>
+      <fieldset>
+        <legend>Misc Properties</legend>
+        <input type="checkbox" id="chk_never_contact" />
+        <label for="chk_never_contact">Never contact</label>
+        <input type="checkbox" id="chk_nps_opt_out" />
+        <label for="chk_nps_opt_out">NPS opt-out</label><br />
+        <input type="radio" id="consumer_type_B2C" name="consumer_type" checked />
+        <label for="consumer_type_B2C">B2C</label>
+        <input type="radio" id="consumer_type_B2B" name="consumer_type" />
+        <label for="consumer_type_B2B">B2B</label>
+      </fieldset>
+    </form>
+    <button onclick="dlg_new_consumer_close()">Close</button>
+    <button>Create</button>
+    <button onclick="dlg_new_consumer_reset()">Reset</button>
+  </dialog>
+  <dialog id="dlg_new_asset">
+    <h3>Create new asset</h3>
+    <form method="dialog">
+      <table>
+        <tr>
+          <td>Product family:</td>
+          <td><input type="text" id="asset_family" disabled></td>
+          <td class="hint_red">*</td>
+        </tr>
+        <tr>
+          <td>CTN:</td>
+          <td><input type="text" id="asset_ctn"></td>
+          <td class="hint_red">*</td>
+        </tr>
+        <tr>
+          <td>Serial no.:</td>
+          <td><input type="text" id="asset_SN"></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>No SN reason:</td>
+          <td>
+            <select id="asset_no_SN_reason">
+              <option value=1></option>
+              <option value=1>Unable to obtain</option>
+              <option value=2>Non-serialized product</option>
+              <option value=3>Other</option>
+            </select>
+          </td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>SW version:</td>
+          <td><input type="text" id="asset_SW_version" disabled></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>Purchase date:</td>
+          <td><input type="text" id="asset_purchase_date"></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td><label for="asset_warranty_status">In warranty:</label></td>
+          <td><input type="checkbox" id="asset_warranty_status" checked /></td>
+        </tr>
+      </table>
+    </form>
+    <button>Create</button>
+    <button>Close</button>
+    <button>Reset</button>
+  </dialog>
+  <dialog id="dlg_test2">
+    <h3>Test dialog</h3>
+    <p id="dlg_test_content"></p>
+    <button onclick="window.dlg_test2.close()">Close</button>
+  </dialog>
+  <dialog id="dlg_new_tst_case">
+    <h3>Create new case</h3>
+    <form method="dialog">
+      <fieldset>
+        <legend>Consumer infomation</legend>
+        <fieldset>
+          <legend>Personal details</legend>
+          <table>
+            <tr>
+              <td><label>Salutation:</label></td>
+              <td>To be implemented</td>
+            </tr>
+            <tr>
+              <td><label>First name:</label></td>
+              <td>To be implemented</td>
+              <td><label>Last name:</label></td>
+              <td>To be implemented</td>
+            </tr>
+            <tr>
+              <td><label>Email address:</label></td>
+              <td>To be implemented</td>
+            </tr>
+            <tr>
+              <td><label>Phone (landline):</label></td>
+              <td>To be implemented</td>
+              <td><label>Phone (GSM):</label></td>
+              <td>To be implemented</td>
+            </tr>
+          </table>
+        </fieldset>
+        <fieldset>
+          <legend>Address data</legend>
+          <table>
+            <tr>
+              <td><label>Street name:</label></td>
+              <td>To be implemented</td>
+              <td><label>House no.</label></td>
+              <td>To be implemented</td>
+            </tr>
+            <tr>
+              <td><label>Building name:</label></td>
+              <td colspan="3">To be implemented</td>
+            </tr>
+            <tr>
+              <td><label>ZIP code:</label></td>
+              <td>To be implemented</td>
+              <td><label>City name:</label></td>
+              <td>To be implemented</td>
+            </tr>
+            <tr>
+              <td><label>State / province:</label></td>
+              <td>To be implemented</td>
+              <td><label>Country:</label></td>
+              <td>To be implemented</td>
+            </tr>
+          </table>
+        </fieldset>
+      </fieldset>
+      <fieldset>
+        <legend>Product information</legend>
+        <table>
+          <tr>
+            <td><label>Product family:</label></td>
+            <td>
+              <select>
+                <option>TV</option>
+                <option>Monitors</option>
+                <option>Audio</option>
+                <option>Accessories</option>
+                <option>ProTV</option>
+                <option>Signage</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td><label>CTN:</label></td>
+            <td><input type="text" /></td>
+            <td><label>Serial number:</label></td>
+            <td><input type="text" /></td>
+          </tr>
+          <tr>
+            <td colspan="3"><label>No SN reason:</label></td>
+            <td>
+              <select>
+                <option>N/A</option>
+                <option>SN not readable</option>
+                <option>Product not labelled / serialized</option>
+                <option>Other reasons</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td><label>Purchase date:</label></td>
+            <td><input type="date" /></td>
+            <td><label>Warranty status:</label></td>
+            <td>
+              <select>
+                <option>In warranty</option>
+                <option>Out of warranty</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td><label>Platform:</label></td>
+            <td><input type="text" disabled /></td>
+            <td><label>Chassis:</label></td>
+            <td><input type="text" disabled /></td>
+          </tr>
+          <tr>
+            <td><label>Current SW version:</label></td>
+            <td><input type="text" disabled /></td>
+            <td><label>Installed SW version:</label></td>
+            <td><input type="text" disabled /></td>
+          </tr>
+        </table>
+      </fieldset>
+      <fieldset>
+        <legend>Case information</legend>
+        <table>
+          <tr>
+            <td><label>Case origin:</label></td>
+            <td>To be implemented</td>
+          </tr>
+          <tr>
+            <td><label>Categorization L1:</label></td>
+            <td>To be implemented</td>
+          </tr>
+          <tr>
+            <td><label>Categorization L2:</label></td>
+            <td>To be implemented</td>
+          </tr>
+          <tr>
+            <td><label>Case subject:</label></td>
+            <td><input type="text" /></td>
+          </tr>
+          <tr>
+            <td><label>Case description:</label></td>
+            <td><textarea rows="5" cols="50"></textarea></td>
+          </tr>
+        </table>
+      </fieldset>
+    </form>
+  </dialog>
+  <h1>miniCRM <em>v0.1a</em></h1>
+  <hr>
+  <div id="test_tags">
+    <ul class="tags">
+      <li class="tag">Commercial escalation</li>
+      <li class="tag">Picture quality</li>
+      <li class="tag">Intermittent hang-up</li>
+      <li class="tag">Slow response to RC commands</li>
+    </ul>
+    <input type="text" id="new_tag" />
+    <button type="button" id="btn_add_tag">Add tag</button>
+  </div>
+  <hr>
+  <div id="top_nav" class="top_nav">
+    <a href="#" id="nav_link_home" class="nav_active" onclick="generate_home()">Home</a>
+    <a href="#" id="nav_link_sr" onclick="generate_sr_overview()">Service Requests</a>
+    <a href="#" id="nav_link_consumers" onclick="generate_consumer_overview()">Consumers</a>
+    <a href="#" id="nav_link_products" onclick="generate_product_overview()">Products</a>
+    <a href="#" id="nav_link_assets" onclick="generate_asset_overview()">Assets</a>
+    <a href="#" id="nav_link_kb" onclick="generate_kb_overview()">Knowledge</a>
+    <a href="#" id="nav_link_about" onclick="window.dlg_about.showModal();">About</a>
+    <a href="#" id="nav_list_test" onclick="nav_test()">Test</a>
+  </div>
+  <hr>
+  <div id="sub_nav" class="sub_nav">
+    <a href="#" id="nav_sub_link_create_consumer" onclick="window.dlg_new_consumer.showModal();">New consumer</a>
+    <a href="#" id="nav_sub_link_new_sr" onclick="create_new_service_request()">New SR</a>
+    <a href="#" id="nav_sub_link_new_product" onclick="create_new_product()">New product</a>
+    <a href="#" id="nav_sub_link_new_asset" onclick="window.dlg_new_asset.showModal();">New asset</a>
+    <a href="#" id="nav_sub_link_new_case_test" onclick="window.dlg_new_tst_case.showModal();">New case (test)</a>
+  </div>
+  <hr>
+  <div id="content_pane">
+    <table>
+      <tr>
+        <td>
+          <label for="input_search_string">Search query:</label>
+        </td>
+        <td>
+          <input id="input_search_string" type="text">
+        </td>
+        <td id="search_query_annotation"></td>
+        <td>
+          <input type="button" value="Go!" id="btn_search">
+        </td>
+      </tr>
+    </table>
+  </div>
+  <hr>
+  <h3>Recent cases</h3>
+  <table>
+    <tr>
+      <th>SR ID</th>
+      <th>Product family</th>
+      <th>CTN</th>
+      <th>Serial</th>
+      <th>First name</th>
+      <th>Last name</th>
+      <th>Case type</th>
+      <th>Subject</th>
+      <th>Priority</th>
+      <th>TAT</th>
+      <th>Status</th>
+    </tr>
+  </table>
+  <hr>
+  <h3>My cases</h3>
+  <table>
+    <tr>
+      <th>SR ID</th>
+      <th>Product family</th>
+      <th>CTN</th>
+      <th>Serial</th>
+      <th>First name</th>
+      <th>Last name</th>
+      <th>Case type</th>
+      <th>Subject</th>
+      <th>Priority</th>
+      <th>TAT</th>
+      <th>Status</th>
+    </tr>
+  </table>
+  <script type="text/javascript">
+    window.onload = init;
+  </script>
+</body>
+
+</html>
