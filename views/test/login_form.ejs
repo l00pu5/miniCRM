@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FE test / login form</title>
+</head>
+<body>
+  <h1>Login form test</h1>
+  <form action="/api/test/register" method="post">
+    <label for="firstName">First Name:</label>
+    <input type="text" id="firstName" name="firstName"><br>
+    <label for="lastName">Last Name:</label>
+    <input type="text" name="lastName" id="lastName"><br>
+    <label for="email">Email address:</label>
+    <input type="email" name="email" id="email"><br>
+    <label for="password">Password:</label>
+    <input type="password" name="password" id="password"><br>
+    <input type="submit" value="Submit form">
+    <button id="btnFetchTest">Fetch API request</button>
+  </form>
+  <hr>
+  <form action="/api/test/add-test-user" method="get">
+    <input type="submit" value="Generate test user">
+  </form>
+</body>
+<script>
+  const btnFetchTest = document.getElementById("btnFetchTest");
+  btnFetchTest.addEventListener("click", async function (e) {
+    e.preventDefault();
+    console.log("! entering button click handler");
+    const input_firstName = document.getElementById("firstName");
+    const input_lastName = document.getElementById("lastName");
+    const input_email = document.getElementById("email");
+    const input_password = document.getElementById("password");
+    console.log("! gathered input values")
+    const reqBody = {
+      firstName: input_firstName.value,
+      lastName: input_lastName.value,
+      email: input_email.value,
+      password: input_password.value
+    };
+    console.log("! request body:", reqBody);
+    console.log("! sending fetch request");
+    const response = await fetch("http://localhost:3000/api/test/register", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      body: new URLSearchParams(reqBody),
+    });
+    console.log("! sent fetch request");
+    console.log("Fetch request response:", response);
+  }, true);
+</script>
+</html>

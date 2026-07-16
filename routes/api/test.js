@@ -10,6 +10,9 @@ router.get("/get-token", (req, res) => {
 
 router.post("/register", (req, res) => {
   // TODO: implement
+  console.log("-> register");
+  console.log("Request body:", req.body);
+  res.redirect("/test/login-form");
 });
 
 router.get("/add-test-user", async (req, res) => {
@@ -38,6 +41,7 @@ router.get("/add-test-user", async (req, res) => {
     res.status(200).json(testUser);
   } catch (error) {
     console.error(error);
+    res.sendStatus(503);
   }
 });
 
