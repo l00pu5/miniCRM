@@ -31,6 +31,10 @@ app.use("/", route_root);
 app.use("/api/test", route_api_test);
 app.use("/test", route_fe_est);
 
+app.get("*all", (req, res) => {
+  res.status(404).render("error/FileNotFound");
+});
+
 app.listen(PORT, () => {
   console.log(`Server running on port: ${PORT}`);
 });

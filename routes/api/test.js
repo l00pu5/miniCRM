@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const { getUserData, setUserData } = require("../../util/userData.js");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 router.get("/get-token", (req, res) => {
   // TODO: implement
@@ -35,6 +36,17 @@ router.get("/add-test-user", async (req, res) => {
       password_hash: pwHash
     };
     console.log("generated user data:", testUser);
+    // generate access token (JWT)
+    const accesstoken = await jwt.sign({
+      id: testUser.id,
+      role: testUser.role,
+      permissions: testUser.permissions
+    }, process.env.ACCESS_TOKEN_SECRET, {
+      expiresIn: "10m"
+    });
+    console.log("Access token:", accesstoken);
+    testUser.accessToken = accesstoken;
+    testUser.redirectURL = "/test/auth-verification"
     const match1 = await bcrypt.compare("abc123", pwHash);
     const match2 = await bcrypt.compare("testbla123", pwHash);
     console.log("PW matching result (expected: true false):", match1, match2);
@@ -43,6 +55,10 @@ router.get("/add-test-user", async (req, res) => {
     console.error(error);
     res.sendStatus(503);
   }
+});
+
+router.get("/auth-verification", (req, res) => {
+  console.log("-> /auth-verification");
 });
 
 router.get("/users", (req, res) => {
