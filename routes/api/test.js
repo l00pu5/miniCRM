@@ -22,7 +22,7 @@ router.get("/add-test-user", async (req, res) => {
   // console.log(req);
   // TODO: check req.body for consistency
   try {
-    // TODO: hash PW of req.password instead of static dummy PW
+    // TODO: hash PW of req.body.password instead of static dummy PW
     const pwHash = await bcrypt.hash("abc123", parseInt(process.env.SALT_ROUNDS) || 10);
     console.log("Hashed PW:", pwHash);
     const userData = getUserData();
