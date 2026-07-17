@@ -23,9 +23,13 @@
   <form action="/api/test/add-test-user" method="get">
     <input type="submit" value="Generate test user">
   </form>
+  <hr>
+  <button id="btnGetTokenTest">Test: get token</button>
 </body>
 <script>
   const btnFetchTest = document.getElementById("btnFetchTest");
+  const btnGetTokenTest = document.getElementById("btnGetTokenTest");
+
   btnFetchTest.addEventListener("click", async function (e) {
     e.preventDefault();
     console.log("! entering button click handler");
@@ -51,6 +55,10 @@
     });
     console.log("! sent fetch request");
     console.log("Fetch request response:", response);
+  }, true);
+
+  btnGetTokenTest.addEventListener("click", function (e) {
+    // TODO: implement
   }, true);
 </script>
 </html>
