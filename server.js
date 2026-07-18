@@ -1,6 +1,7 @@
 const express = require("express");
 const app = express();
 const dotenv = require("dotenv");
+const uuid = require("uuid").v4;
 const session = require("express-session");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
@@ -31,6 +32,9 @@ app.use(session({
   cookie: {
     httpOnly: true,
     sameSite: "strict"
+  },
+  genid: (req) => {
+    return uuid();
   }
 }));
 app.use(cookieParser());
