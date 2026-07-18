@@ -3,11 +3,51 @@ const router = express.Router();
 const { getUserData, setUserData } = require("../../util/userData.js");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const authentication_middleware = require("../../middleware/authentication.js");
+const permission_middleware = require("../../middleware/permissions.js");
 
-router.get("/get-token", (req, res) => {
-  // provide a valid token for testing purposes
-  // TODO: implement
+router.get("/get-token", async (req, res) => {
+  // provide a valid token with test permissions for testing purposes
   console.log("-> Route: /get-token");
+  const testUser = {
+    firstname: "A",
+    lastname: "B",
+    email: "ab@c.de",
+    role: "user",
+    permissions: ["AUTH_TEST"],
+    id: 0,
+    password_raw: "abc123",
+    password_hash: "abc123"
+  };
+  // TODO: try catch for error handling
+  const token = await jwt.sign({
+    id: testUser.id,
+    role: testUser.role,
+    permissions: testUser.permissions
+  }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "10m" });
+  res.status(200).json({access_token: token});
+});
+
+router.get("/get-token2", async (req, res) => {
+  // provide a valid token without permissions for testing purposes
+  console.log("-> Route: /get-token2");
+  const testUser = {
+    firstname: "A",
+    lastname: "B",
+    email: "ab@c.de",
+    role: "user",
+    permissions: [],
+    id: 0,
+    password_raw: "abc123",
+    password_hash: "abc123"
+  };
+  // TODO: try catch for error handling
+  const token = await jwt.sign({
+    id: testUser.id,
+    role: testUser.role,
+    permissions: testUser.permissions
+  }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "10m" });
+  res.status(200).json({access_token: token});
 });
 
 router.post("/register", (req, res) => {
@@ -32,7 +72,8 @@ router.get("/add-test-user", async (req, res) => {
     console.log("Hashed PW:", pwHash);
     const userData = getUserData();
     const testUser = {
-      name: "Test",
+      firstname: "Test",
+      lastname: "Test",
       email: "ab@c.de",
       role: "user",
       permissions: [],
@@ -63,8 +104,15 @@ router.get("/add-test-user", async (req, res) => {
   }
 });
 
-router.get("/auth-verification", (req, res) => {
+router.get("/auth-verification", authentication_middleware.authenticate, (req, res) => {
   // TODO: implement
+  // authentication test w/o permissions
+  console.log("-> /auth-verification");
+});
+
+router.get("/auth-verification2", authentication_middleware.authenticate, permission_middleware.verifyPermission("AUTH_TEST"), (req, res) => {
+  // TODO: implement
+  // authentication test w permission "AUTH_TEST"
   console.log("-> /auth-verification");
 });
 

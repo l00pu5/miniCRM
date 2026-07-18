@@ -1,68 +1,132 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FE test / login form</title>
+  </head>
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FE test / login form</title>
-</head>
+  <body>
+    <h1>Login form test</h1>
+    <form action="/api/test/register" method="post">
+      <label for="firstName">First Name:</label>
+      <input type="text" id="firstName" name="firstName" /><br />
+      <label for="lastName">Last Name:</label>
+      <input type="text" name="lastName" id="lastName" /><br />
+      <label for="email">Email address:</label>
+      <input type="email" name="email" id="email" /><br />
+      <label for="password">Password:</label>
+      <input type="password" name="password" id="password" /><br />
+      <input type="submit" value="Submit form" />
+      <button id="btnFetchTest">Fetch API request</button>
+    </form>
+    <hr />
+    <form action="/api/test/add-test-user" method="get">
+      <input type="submit" value="Generate test user" />
+    </form>
+    <hr />
+    <button id="btnGetTokenTest">Test: get token (no permission)</button>
+    <button id="btnCheckPerm">Permission check test (no permission)</button>
+    <button id="btnCheckPermNOK">Permission check test (with permission)</button><br />
+    <button id="btnGetTokenTest2">Test: get token (with permission)</button>
+    <button id="btnCheckPerm2">Permission check test (with permission)</button><br />
+    <button id="btnDeleteToken">Delete token</button>
+    <hr />
+    <div id="status">
+      <h2>App status:</h2>
+      <input type="checkbox" name="token1" id="flag_token1" disabled />
+      <label for="token1">Token (no permission)</label><br />
+      <input type="checkbox" name="token2" id="flag_token2" disabled />
+      <label for="token2">Token (with permission)</label><br />
+    </div>
+  </body>
+  <script>
+    const btnFetchTest = document.getElementById("btnFetchTest");
+    const btnGetTokenTest = document.getElementById("btnGetTokenTest");
+    const btnGetTokenTest2 = document.getElementById("btnGetTokenTest2");
+    const btnCheckPerm = document.getElementById("btnCheckPerm");
+    const btnCheckPerm2 = document.getElementById("btnCheckPerm2");
+    const btnCheckPermNOK = document.getElementById("btnCheckPermNOK");
+    const btnDeleteToken = document.getElementById("btnDeleteToken");
+    const chkToken1 = document.getElementById("flag_token1");
+    const chkToken2 = document.getElementById("flag_token2");
 
-<body>
-  <h1>Login form test</h1>
-  <form action="/api/test/register" method="post">
-    <label for="firstName">First Name:</label>
-    <input type="text" id="firstName" name="firstName"><br>
-    <label for="lastName">Last Name:</label>
-    <input type="text" name="lastName" id="lastName"><br>
-    <label for="email">Email address:</label>
-    <input type="email" name="email" id="email"><br>
-    <label for="password">Password:</label>
-    <input type="password" name="password" id="password"><br>
-    <input type="submit" value="Submit form">
-    <button id="btnFetchTest">Fetch API request</button>
-  </form>
-  <hr>
-  <form action="/api/test/add-test-user" method="get">
-    <input type="submit" value="Generate test user">
-  </form>
-  <hr>
-  <button id="btnGetTokenTest">Test: get token</button>
-</body>
-<script>
-  const btnFetchTest = document.getElementById("btnFetchTest");
-  const btnGetTokenTest = document.getElementById("btnGetTokenTest");
+    const app_state = {};
 
-  btnFetchTest.addEventListener("click", async function (e) {
-    e.preventDefault();
-    console.log("! entering button click handler");
-    const input_firstName = document.getElementById("firstName");
-    const input_lastName = document.getElementById("lastName");
-    const input_email = document.getElementById("email");
-    const input_password = document.getElementById("password");
-    console.log("! gathered input values")
-    const reqBody = {
-      firstName: input_firstName.value,
-      lastName: input_lastName.value,
-      email: input_email.value,
-      password: input_password.value
-    };
-    console.log("! request body:", reqBody);
-    console.log("! sending fetch request");
-    const response = await fetch("http://localhost:3000/api/test/register", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
+    btnFetchTest.addEventListener(
+      "click",
+      async function (e) {
+        e.preventDefault();
+        console.log("! entering button click handler");
+        const input_firstName = document.getElementById("firstName");
+        const input_lastName = document.getElementById("lastName");
+        const input_email = document.getElementById("email");
+        const input_password = document.getElementById("password");
+        console.log("! gathered input values");
+        const reqBody = {
+          firstName: input_firstName.value,
+          lastName: input_lastName.value,
+          email: input_email.value,
+          password: input_password.value,
+        };
+        console.log("! request body:", reqBody);
+        console.log("! sending fetch request");
+        const response = await fetch(
+          "http://localhost:3000/api/test/register",
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: new URLSearchParams(reqBody),
+          },
+        );
+        console.log("! sent fetch request");
+        console.log("Fetch request response:", response);
       },
-      body: new URLSearchParams(reqBody),
+      true,
+    );
+
+    btnGetTokenTest.addEventListener("click", async function (e) {
+        // ROUTE: /api/test/get-token
+        // Purpose: retrieves JWT w/o permission declaration
+        try {
+          const data = await fetch("http://localhost:3000/api/test/get-token2");
+          const result = await data.json();
+          console.log("Data:", data);
+          console.log("Result:", result);
+          app_state.access_token = result.access_token;
+          chkToken1.checked = true;
+        } catch (error) {
+          delete app_state.access_token;
+          chkToken1.checked = false;
+          console.error(error);
+        }
+      },
+      true,
+    );
+
+    btnGetTokenTest2.addEventListener("click", async function (e) {
+      // TODO: implement
+      // ROUTE: /api/test/get-token2
+      // Purpose: retrieves JWT with permission declaration
     });
-    console.log("! sent fetch request");
-    console.log("Fetch request response:", response);
-  }, true);
 
-  btnGetTokenTest.addEventListener("click", function (e) {
-    // TODO: implement
-    // ROUTE: /api/test/get-token
-  }, true);
-</script>
+    btnCheckPerm.addEventListener("click", function (e) {
+      // TODO: implement
+    });
 
+    btnCheckPermNOK.addEventListener("click", function (e) {
+      // TODO: implement
+    });
+
+    btnCheckPerm2.addEventListener("click", function (e) {
+      // TODO: implement
+    });
+
+    btnDeleteToken.addEventListener("click", function (e) {
+      // Purpose: delete token from app state
+      chkToken1.checked = false;
+      chkToken2.checked = false;
+      delete app_state.access_token;
+    });
+  </script>
 </html>
