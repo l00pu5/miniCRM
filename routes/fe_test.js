@@ -19,7 +19,7 @@ router.get("/auth", auth_middleware.authenticate, (req, res) => {
 router.get("/session-auth", session_middleware.validateSession, (req, res) => {
   // test endpoint for authentication middleware testing
   // renders a test page is auth is successful
-  console.log("-> /auth (test)");
+  console.log("-> /session-auth (test)");
   res.render("test/authSuccess");
 });
 
