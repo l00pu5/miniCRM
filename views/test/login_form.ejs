@@ -27,10 +27,11 @@
     <hr />
     <button id="btnGetTokenTest">Test: get token (no permission)</button>
     <button id="btnCheckPerm">Permission check test (no permission)</button>
-    <button id="btnCheckPermNOK">Permission check test (with permission)</button><br />
+    <button id="btnCheckPermNOK">Permission check fail test (with permission)</button><br />
     <button id="btnGetTokenTest2">Test: get token (with permission)</button>
     <button id="btnCheckPerm2">Permission check test (with permission)</button><br />
-    <button id="btnDeleteToken">Delete token</button>
+    <button id="btnDeleteToken">Delete token</button><br />
+    <button id="btnLogout">Log out</button>
     <hr />
     <div id="status">
       <h2>App status:</h2>
@@ -38,6 +39,8 @@
       <label for="token1">Token (no permission)</label><br />
       <input type="checkbox" name="token2" id="flag_token2" disabled />
       <label for="token2">Token (with permission)</label><br />
+      <input type="checkbox" name="rtoken" id="flag_rtoken" disabled />
+      <label for="rtoken">Refresh token</label>
     </div>
   </body>
   <script>
@@ -48,57 +51,57 @@
     const btnCheckPerm2 = document.getElementById("btnCheckPerm2");
     const btnCheckPermNOK = document.getElementById("btnCheckPermNOK");
     const btnDeleteToken = document.getElementById("btnDeleteToken");
+    const btnLogout = document.getElementById("btnLogout");
     const chkToken1 = document.getElementById("flag_token1");
     const chkToken2 = document.getElementById("flag_token2");
+    const chkRefreshToken = document.getElementById("flag_rtoken");
 
     const app_state = {};
 
-    btnFetchTest.addEventListener(
-      "click",
-      async function (e) {
-        e.preventDefault();
-        console.log("! entering button click handler");
-        const input_firstName = document.getElementById("firstName");
-        const input_lastName = document.getElementById("lastName");
-        const input_email = document.getElementById("email");
-        const input_password = document.getElementById("password");
-        console.log("! gathered input values");
-        const reqBody = {
-          firstName: input_firstName.value,
-          lastName: input_lastName.value,
-          email: input_email.value,
-          password: input_password.value,
+    btnFetchTest.addEventListener("click", async function (e) {
+      e.preventDefault();
+      console.log("! entering button click handler");
+      const input_firstName = document.getElementById("firstName");
+      const input_lastName = document.getElementById("lastName");
+      const input_email = document.getElementById("email");
+      const input_password = document.getElementById("password");
+      console.log("! gathered input values");
+      const reqBody = {
+        firstName: input_firstName.value,
+        lastName: input_lastName.value,
+        email: input_email.value,
+        password: input_password.value,
         };
-        console.log("! request body:", reqBody);
-        console.log("! sending fetch request");
-        const response = await fetch(
-          "http://localhost:3000/api/test/register",
-          {
-            method: "POST",
-            headers: { "Content-Type": "application/x-www-form-urlencoded" },
-            body: new URLSearchParams(reqBody),
-          },
-        );
-        console.log("! sent fetch request");
-        console.log("Fetch request response:", response);
+      console.log("! request body:", reqBody);
+      console.log("! sending fetch request");
+      const response = await fetch("http://localhost:3000/api/test/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: new URLSearchParams(reqBody),
+        });
+      console.log("! sent fetch request");
+      console.log("Fetch request response:", response);
       },
       true,
     );
 
     btnGetTokenTest.addEventListener("click", async function (e) {
-        // ROUTE: /api/test/get-token
-        // Purpose: retrieves JWT w/o permission declaration
-        try {
-          const data = await fetch("http://localhost:3000/api/test/get-token2");
-          const result = await data.json();
-          console.log("Data:", data);
-          console.log("Result:", result);
-          app_state.access_token = result.access_token;
-          chkToken1.checked = true;
-        } catch (error) {
-          delete app_state.access_token;
-          chkToken1.checked = false;
-          console.error(error);
+      // ROUTE: /api/test/get-token
+      // Purpose: retrieves JWT w/o permission declaration
+      try {
+        const data = await fetch("http://localhost:3000/api/test/get-token2");
+        const result = await data.json();
+        console.log("Data:", data);
+        console.log("Result:", result);
+        app_state.access_token = result.access_token;
+        chkToken1.checked = true;
+        chkToken2.checked = false;
+      } catch (error) {
+        delete app_state.access_token;
+        chkToken1.checked = false;
+        chkToken2.checked = false;
+        console.warn("Unable to retrieve token from backend!");
+        console.error(error);
         }
       },
       true,
@@ -106,9 +109,24 @@
 
     btnGetTokenTest2.addEventListener("click", async function (e) {
       // TODO: implement
-      // ROUTE: /api/test/get-token2
+      // ROUTE: /api/test/get-token
       // Purpose: retrieves JWT with permission declaration
-    });
+      try {
+        const data = await fetch("http://localhost:3000/api/test/get-token");
+        const result = await data.json();
+        console.log("Data:", data);
+        console.log("Result:", result);
+        app_state.access_token = result.access_token;
+        chkToken2.checked = true;
+        chkToken1.checked = false;
+      } catch (error) {
+        delete app_state.access_token;
+        chkToken2.checked = false;
+        chkToken1.checked = false;
+        console.warn("Unable to retrieve token from backend!");
+        console.error(error);
+      }
+    }, true);
 
     btnCheckPerm.addEventListener("click", function (e) {
       // TODO: implement
@@ -126,7 +144,15 @@
       // Purpose: delete token from app state
       chkToken1.checked = false;
       chkToken2.checked = false;
+      chkRefreshToken.checked = false;
       delete app_state.access_token;
+      delete app_state.refresh_token;
+    });
+
+    btnLogout.addEventListener("click", function (e) {
+      // TODO: implement
+      // Route: /api/test/logout
+      // Purpose: log out the user & invalidate the tokens
     });
   </script>
 </html>

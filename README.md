@@ -1,19 +1,22 @@
-# TODOs
-- transform index.html to individual views (in folder /views)
-  - create view: login form
-  - create view: registration form
-  - create view: home / dashboard
-  - create view: create account
-  - create view: create contact
-  - create view: create asset / product
-  - create view: create case
-  - create view: create interaction
-- adapt backend / API
- - endpoint: test user account creation
+# Introduction
+**miniCRM** is a tiny demo project where I'm trying to implement a minimalistic but extensible CRM system.
 
- # Interesting resources
- - [](https://www.digitalocean.com/community/tutorials/nodejs-jwt-expressjs)
- - [](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch)
- - [](https://dev.to/mrcyberwolf/node-js-api-authentication-with-jwt-json-web-token-auth-middleware-ggm)
- - [](https://www.w3schools.com/nodejs/nodejs_api_auth.asp)
- - [](https://www.w3schools.in/express-js/ejs-templating)
+Goal is to provide the following functionality:
+- User Authentication / Login
+- User-specific home screen / dashboard
+- Ability to create accounts
+- Ability to create contacts within accounts (B2B context)
+- B2C accounts (contact = account)
+- Ability to create cases that are associated to a contact
+- Ability to log support interactions (chat, email, phone calls, ...) within a case
+- Ability to create a product that the support interaction is revolving around
+- Ability to link one or more product(s) to a case
+
+...however, the wish list will grow continuously as the projects progresses.
+
+# API endpoints
+- **[host]/** */ -> serves indes.html from the project's root directory
+- **[host]/ejs-test** -> serves "test.ejs" from the "views" directory to test whether the EJS view engine works correctly
+- [host]/test/login-form
+- [host]/test/auth
+- [host]/test/session-auth

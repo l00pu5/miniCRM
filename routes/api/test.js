@@ -25,7 +25,11 @@ router.get("/get-token", async (req, res) => {
     role: testUser.role,
     permissions: testUser.permissions
   }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "10m" });
-  res.status(200).json({access_token: token});
+  // TODO: generate refresh token
+  testUser.access_token = token;
+  // save user data in session
+  req.session.user = testUser;
+  res.status(200).json({ access_token: token });
 });
 
 router.get("/get-token2", async (req, res) => {
@@ -47,22 +51,69 @@ router.get("/get-token2", async (req, res) => {
     role: testUser.role,
     permissions: testUser.permissions
   }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "10m" });
-  res.status(200).json({access_token: token});
+  // TODO: generate refresh token
+  testUser.access_token = token;
+  // save user data in session
+  req.session.user = testUser;
+  res.status(200).json({ access_token: token });
+});
+
+router.get("/refresh-token", (req, res) => {
+  // TODO: implement
+});
+
+router.get("/session-data", (req, res) => {
+  // TODO: implement
+  // Purpose: return session data for debugging purposes
+  if (!req.session) {
+    // TODO: implement
+    // session data is undefined
+    return;
+  }
+  if (!req.session.user) {
+    // user data is not present in session
+    // TODO: implement
+    return;
+  }
+  // TODO: return session data if session is present
+  console.log("-> Route: /session-data");
 });
 
 router.post("/register", (req, res) => {
   // registers a user with the data provides on the login form
   // TODO: implement
-  console.log("-> register");
+  console.log("-> Route: register");
   console.log("Request body:", req.body);
   // TODO: provide redirect URL to frontend instead of redirecting here?
   res.redirect("/test/login-form");
 });
 
+router.get("/logout", authentication_middleware.authenticate, (req, res) => {
+  // TODO: implement
+  // TODO: implement blacklist for invalidated access tokens
+  // TODO: alternative: track login status in session cookie
+  // TODO: delete token cookie to revoke refresh token
+  console.log("-> Route: logout");
+  // destroy session
+  req.session.destroy((err) => {
+    if (err) {
+      console.error("Unable to destroy session!");
+      // TODO: transform response to JSON
+      res.send("Error: unable to destroy session");
+      return;
+    }
+    else {
+      // TODO: transform response to JSON
+      res.send("Session destroyed!");
+      return;
+    }
+  });
+});
+
 router.get("/add-test-user", async (req, res) => {
   // adds a static test user to the user database
   // TODO: implement
-  console.log("-> add-test-user");
+  console.log("-> Route: add-test-user");
   // console.log(req);
   try {
     const pwHash = await bcrypt.hash(
@@ -107,17 +158,18 @@ router.get("/add-test-user", async (req, res) => {
 router.get("/auth-verification", authentication_middleware.authenticate, (req, res) => {
   // TODO: implement
   // authentication test w/o permissions
-  console.log("-> /auth-verification");
+  console.log("-> Route: /auth-verification");
 });
 
 router.get("/auth-verification2", authentication_middleware.authenticate, permission_middleware.verifyPermission("AUTH_TEST"), (req, res) => {
   // TODO: implement
   // authentication test w permission "AUTH_TEST"
-  console.log("-> /auth-verification");
+  console.log("-> Route: /auth-verification");
 });
 
 router.get("/users", (req, res) => {
   // return all users from the user DB
+  console.log("-> Route: /users");
   const data = getUserData();
   res.status(200).json(data);
 });

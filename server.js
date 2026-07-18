@@ -1,6 +1,7 @@
 const express = require("express");
 const app = express();
 const dotenv = require("dotenv");
+const session = require("express-session");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const logger = require("./middleware/logging.js");
@@ -23,6 +24,15 @@ app.use(express.static("public"));
 // middleware
 app.use(express.json()); // handle json data in request body
 app.use(express.urlencoded({ extended: true })); // handle form data -> stored in req.body
+app.use(session({
+  secret: process.env.SESSION_SECRET,
+  saveUninitialized: false,
+  resave: false,
+  cookie: {
+    httpOnly: true,
+    sameSite: "strict"
+  }
+}));
 app.use(cookieParser());
 app.use(cors());
 
