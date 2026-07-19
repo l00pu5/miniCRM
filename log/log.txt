@@ -42,3 +42,13 @@
 18.06.2026 17:17:19 : GET /.well-known/appspecific/com.chrome.devtools.json /.well-known/appspecific/com.chrome.devtools.json
 18.06.2026 18:18:40 : GET /test/login-form /test/login-form
 18.06.2026 18:18:40 : GET /.well-known/appspecific/com.chrome.devtools.json /.well-known/appspecific/com.chrome.devtools.json
+19.06.2026 09:09:03 : GET / /
+19.06.2026 09:09:03 : GET /mcrm.css /mcrm.css
+19.06.2026 09:09:03 : GET /mcrm.js /mcrm.js
+19.06.2026 09:09:20 : GET / /
+19.06.2026 09:09:44 : GET /test /test
+19.06.2026 09:09:23 : GET /test /test
+19.06.2026 09:09:56 : GET /test /test
+19.06.2026 10:10:02 : POST /api/test/login /api/test/login
+19.06.2026 10:10:33 : POST /api/test/login /api/test/login
+19.06.2026 10:10:01 : POST /api/test/login /api/test/login
