@@ -27,7 +27,7 @@ app.use(express.json()); // handle json data in request body
 app.use(express.urlencoded({ extended: true })); // handle form data -> stored in req.body
 app.use(session({
   secret: process.env.SESSION_SECRET,
-  saveUninitialized: false,
+  saveUninitialized: true,
   resave: false,
   cookie: {
     httpOnly: true,
