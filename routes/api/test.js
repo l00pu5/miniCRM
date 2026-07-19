@@ -58,6 +58,29 @@ router.get("/get-token2", async (req, res) => {
   res.status(200).json({ access_token: token });
 });
 
+router.get("/login", (req, res) => {
+  // TODO: implement
+  console.log("-> Route: /login (GET)");
+  res.status(200).json({ message: "Logged in!" });
+});
+
+router.post("/login", (req, res) => {
+  // TODO: implement
+  console.log("-> Route: /login (POST)");
+  console.log("Data:", req.body);
+  // TODO: check request body for consistency
+  // match user data from user DB
+  const userDB = require("../../data/users.json");
+  const user = userDB.find((entry) => {
+    return req.body.email === user.email || req.body.username === user.username;
+  });
+  if (!user) {
+    res.sendStatus(400);
+  }
+  // TODO: match credentials (username + pwd || email address + pwd)
+  res.sendStatus(204);
+});
+
 router.get("/refresh-token", (req, res) => {
   // TODO: implement
 });
@@ -80,7 +103,7 @@ router.get("/session-data", (req, res) => {
 });
 
 router.post("/register", (req, res) => {
-  // registers a user with the data provides on the login form
+  // registers a user with the data provided on the login form
   // TODO: implement
   console.log("-> Route: register");
   console.log("Request body:", req.body);
