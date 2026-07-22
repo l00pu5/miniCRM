@@ -82,6 +82,17 @@ router.post("/login", (req, res) => {
 });
 
 router.get("/refresh-token", (req, res) => {
+  // generate a valid refresh token and return it via httpOnly cookie
+  // NOTE: cookie is returned via res.cookie
+  // NOTE: maxAge property must be defined with adequate expiry span
+  // NOTE: httpOnly property must be set
+  // TODO: document route in README.md
+  // TODO: implement
+});
+
+router.get("/refresh", (req, res) => {
+  // generate new access token
+  // TODO: document route in README.md
   // TODO: implement
 });
 

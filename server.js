@@ -31,7 +31,8 @@ app.use(session({
   resave: false,
   cookie: {
     httpOnly: true,
-    sameSite: "strict"
+    sameSite: "strict",
+    secure: true
   },
   genid: (req) => {
     return uuid();
