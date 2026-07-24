@@ -158,3 +158,15 @@ Note: Unnecessary use of -X or --request, POST is already inferred.
 < 
 * Connection #0 to host localhost left intact
 ```
+
+# Useful resources / articles
+- [Medium | JWT authentication](https://medium.com/@akgupta241004/jwt-authentication-access-tokens-refresh-tokens-fbc64e74e640)
+- [Medium | JWT authentication with Axios interceptors](https://medium.com/@anjalipatil3993/understanding-jwt-authentication-with-axios-interceptors-275898755260)
+- [Medium | JWT authentication with cookies](https://medium.com/@sajaldewangan/authentication-using-cookies-with-jwt-in-expressjs-900467c3b8d3)
+- [Medium | Node.JS authentication basics](https://medium.com/@evangow/server-authentication-basics-express-sessions-passport-and-curl-359b7456003d)
+- [Bearer Token Authentication Header](https://jasonwatmore.com/fetch-add-bearer-token-authorization-header-to-http-request)
+- [Express.JS - Secure cookie usage](https://expressjs.com/en/advanced/best-practice-security/#use-cookies-securely)
+- [Express.JS session handling](https://www.geeksforgeeks.org/node-js/how-to-handle-sessions-in-express/)
+- [Mongoose tutorial](https://www.geeksforgeeks.org/node-js/mongoose-tutorial/)
+- [Mongoose | Get started](https://www.mongodb.com/docs/drivers/node/current/integrations/mongoose/mongoose-get-started/)
+- [MDN | Mongoose - Get started](https://developer.mozilla.org/en-US/docs/Learn_web_development/Extensions/Server-side/Express_Nodejs/mongoose)
